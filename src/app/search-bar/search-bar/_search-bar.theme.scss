@@ -1,0 +1,8 @@
+@mixin search-bar-theme($theme) {
+  app-search-bar {
+    .options {
+      background-color: function.theme-colour($theme, background);
+      border: 1px solid function.theme-colour($theme, font, border);
+    }
+  }
+}

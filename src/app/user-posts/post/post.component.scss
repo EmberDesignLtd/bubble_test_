@@ -1,0 +1,10 @@
+@use '../../../scss/base';
+
+.post-title {
+  font-size: map-get(base.$font-size, m);
+  margin-bottom: map-get(base.$spacing, s);
+}
+
+.post-body {
+  font-size: map-get(base.$font-size, s);
+}

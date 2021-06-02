@@ -1,0 +1,12 @@
+@function theme-colour($theme, $colourSelector, $opacitySelector: default) {
+  $opacities: map-get($theme, opacities);
+  $opacity: map-get($opacities, $opacitySelector);
+
+  @return rgba(theme-colour-map($theme, $colourSelector), $opacity);
+}
+
+@function theme-colour-map($theme, $colour) {
+  $colours: map-get($theme, colours);
+
+  @return map-get($colours, $colour);
+}

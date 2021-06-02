@@ -1,0 +1,41 @@
+@use './scss/base';
+
+$dark-theme: base.set-theme();
+$light-theme: base.set-theme(map-get(base.$white, 300), map-get(base.$black, 300));
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  font-family: base.$roboto;
+  font-size: map-get(base.$font-size, s);
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+  transition: color 0.03s ease-in, background 0.2s ease-in, box-shadow 0.2s ease-in;
+}
+
+.dark-theme {
+  @include base.theme($dark-theme);
+}
+
+.light-theme {
+  @include base.theme($light-theme);
+}
+
+h1 {
+  font-size: unset;
+  font-weight: unset;
+  text-decoration: none;
+}
+
+a {
+  cursor: pointer;
+}
+
+button {
+  background-color: unset;
+  border: unset;
+  color: currentColor;
+  cursor: pointer;
+}

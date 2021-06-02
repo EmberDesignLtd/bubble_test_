@@ -1,0 +1,19 @@
+@mixin flex-center($dir: row) {
+  align-items: center;
+  display: flex;
+  flex-direction: $dir;
+  justify-content: center;
+}
+
+@mixin pos-abs() {
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin breakpoint($width) {
+  @media (min-width:#{$width}) {
+    @content;
+  }
+}

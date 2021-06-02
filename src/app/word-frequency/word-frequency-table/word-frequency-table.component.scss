@@ -1,0 +1,19 @@
+@use '../../../scss/base';
+
+table {
+  width: 100%;
+}
+
+.title {
+  font-size: map-get(base.$font-size, l);
+  margin-bottom: map-get(base.$spacing, m);
+}
+
+th {
+  padding-bottom: map-get(base.$spacing, m);
+  text-align: left;
+}
+
+td {
+  padding-bottom: map-get(base.$spacing, s);
+}

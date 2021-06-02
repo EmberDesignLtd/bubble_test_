@@ -1,0 +1,43 @@
+@use '../scss/base';
+
+app-search-bar {
+  display: block;
+  padding: map-get(base.$spacing, l) map-get(base.$spacing, m);
+
+  @include base.breakpoint(map-get(base.$bp, m)) {
+    padding: map-get(base.$spacing, l);
+  }
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  padding: 0 map-get(base.$spacing, m);
+
+  @include base.breakpoint(map-get(base.$bp, m)) {
+    flex-direction: row;
+    padding: 0 map-get(base.$spacing, l);
+  }
+}
+
+.main-content-col {
+  flex: 1;
+
+  &:nth-child(2) {
+    @include base.breakpoint(map-get(base.$bp, m)) {
+      padding-left: map-get(base.$spacing, xl);
+    }
+  }
+}
+
+app-word-frequency-histogram {
+  display: block;
+  margin-top: map-get(base.$spacing, l);
+}
+
+.toggle-theme {
+  position: fixed;
+  right: map-get(base.$spacing, m);
+  top: map-get(base.$spacing, m);
+  z-index: 5;
+}

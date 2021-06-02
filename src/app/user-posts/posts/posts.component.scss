@@ -1,0 +1,24 @@
+@use '../../../scss/base';
+
+:host {
+  display: block;
+
+  @include base.breakpoint(map-get(base.$bp, m)) {
+    max-height: 90vh;
+    overflow: auto;
+  }
+}
+
+.title {
+  font-size: map-get(base.$font-size, l);
+  margin-bottom: map-get(base.$spacing, m);
+}
+
+app-post {
+  display: block;
+  margin-bottom: map-get(base.$spacing, s);
+
+  &:last-child {
+    margin-bottom: 9;
+  }
+}

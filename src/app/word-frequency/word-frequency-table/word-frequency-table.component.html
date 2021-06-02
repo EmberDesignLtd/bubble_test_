@@ -1,0 +1,18 @@
+<h1 class="title montserrat">Top 10 word count percentage</h1>
+<ng-container *ngIf="usersViewModel$ | async as usersViewModel">
+  <table *ngIf="usersViewModel?.activeUserPosts?.length !== 0">
+    <tr>
+      <th>Word</th>
+      <th>Percentage of all comments</th>
+    </tr>
+    <tr *ngFor="let word of usersViewModel?.wordFrequency?.sortedAndCountedWords">
+      <td>{{word.word}}</td>
+      <td>
+        {{asPercent(word.count, usersViewModel.wordFrequency.totalWordCount)}} %
+      </td>
+    </tr>
+  </table>
+  <p *ngIf="usersViewModel?.activeUserPosts?.length === 0">
+    Currently no user selected
+  </p>
+</ng-container>

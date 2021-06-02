@@ -1,0 +1,23 @@
+<section *ngIf="usersViewModel$ | async as usersViewModel"
+         class="search-section">
+  <input (click)="showOptions()"
+         [formControl]="searchTerm"
+         class="search"
+         placeholder="Search users"
+         type="text" />
+  <div *ngIf="optionsVisible" class="options">
+    <button (click)="setCurrentUser(user)"
+            *ngFor="let user of usersViewModel.users"
+            class="option">
+      {{user.name}}
+    </button>
+    <p *ngIf="usersViewModel.users.length === 0" class="option">
+      No users match search term
+    </p>
+  </div>
+</section>
+<button (click)="hideOptions()"
+        *ngIf="optionsVisible"
+        aria-label="Close user selection list"
+        class="close-options">
+</button>

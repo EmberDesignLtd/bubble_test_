@@ -1,0 +1,12 @@
+@use '../../../scss/base';
+
+.title {
+  font-size: map-get(base.$font-size, l);
+  margin-bottom: map-get(base.$spacing, m);
+}
+
+.bar {
+  border-radius: 4px;
+  margin-bottom: map-get(base.$spacing, s);
+  padding: map-get(base.$spacing, xs) map-get(base.$spacing, s);
+}
