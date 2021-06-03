@@ -1,8 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, take } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, forkJoin, Observable } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  mergeMap,
+  take,
+} from 'rxjs/operators';
 import { compareValue } from '../utils/compare';
 
 interface RawUserData {
@@ -151,6 +157,7 @@ export class UserDataService {
     this.getUserPostAndComments(id)
       .pipe(take(1))
       .subscribe((postAndComments) => {
+        console.log('Post and comments ', postAndComments);
         this.updateState({
           ...this.state,
           activeUserComments: postAndComments.comments,
@@ -222,10 +229,18 @@ export class UserDataService {
     );
   }
 
-  private getUserPostAndComments(id: number): Observable<UserCommentAndPost> {
-    return combineLatest([this.getUserComments(id), this.getUserPost(id)]).pipe(
-      map(([comments, posts]) => {
-        return { comments, posts };
+  private getUserPostAndComments(id: number) {
+    return this.getUserPost(id).pipe(
+      mergeMap((posts) => {
+        return forkJoin(
+          posts.map((post) => {
+            return this.getUserComments(post.id);
+          })
+        ).pipe(
+          map((comments) => {
+            return { comments: comments.flat(), posts };
+          })
+        );
       })
     );
   }
