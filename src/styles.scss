@@ -12,7 +12,7 @@ $light-theme: base.set-theme(map-get(base.$white, 300), map-get(base.$black, 300
   font-weight: 400;
   margin: 0;
   padding: 0;
-  transition: color 0.03s ease-in, background 0.2s ease-in, box-shadow 0.2s ease-in;
+  transition: color 0.02s ease-in, background 0.2s ease-in, box-shadow 0.2s ease-in;
 }
 
 .dark-theme {
