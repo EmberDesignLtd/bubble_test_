@@ -1,5 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostListener,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { DocumentEvent } from 'src/app/enums/document-events';
 import { UserData, UserDataService } from './../../services/user-data.service';
 
 @Component({
@@ -12,6 +17,9 @@ export class SearchBarComponent {
   readonly usersViewModel$ = this.userDataService.userViewModel$;
   readonly searchTerm: FormControl;
   optionsVisible = false;
+  @HostListener(`${DocumentEvent.ESCAPE}`, ['$event']) onKeydownHandler() {
+    this.hideOptions();
+  }
 
   constructor(private readonly userDataService: UserDataService) {
     const { searchTerm } = this.userDataService.getStateSnapshot();
