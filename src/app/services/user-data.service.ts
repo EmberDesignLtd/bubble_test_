@@ -103,57 +103,23 @@ export class UserDataService {
       highestCount: 0,
     },
   };
+
   private readonly store = new BehaviorSubject<UserViewModel>(this.state);
-  private readonly state$ = this.store.asObservable();
-  private readonly users$ = this.state$.pipe(
-    map((state) => state.users),
-    distinctUntilChanged()
-  );
-  private readonly searchTerm$ = this.state$.pipe(
-    map((state) => state.searchTerm),
-    distinctUntilChanged()
-  );
-  private readonly activeUserComments$ = this.state$.pipe(
-    map((state) => state.activeUserComments),
-    distinctUntilChanged()
-  );
-  private readonly activeUserPosts$ = this.state$.pipe(
-    map((state) => state.activeUserPosts),
-    distinctUntilChanged()
-  );
-  private readonly wordFrequency$ = this.state$.pipe(
-    map((state) => state.wordFrequency),
-    distinctUntilChanged()
-  );
-  private readonly loading$ = this.state$.pipe(map((state) => state.loading));
+  private readonly state_$ = this.store.pipe(distinctUntilChanged());
 
   readonly userViewModel$: Observable<UserViewModel> = combineLatest([
-    this.activeUserPosts$,
-    this.activeUserComments$,
-    this.searchTerm$,
-    this.users$,
-    this.loading$,
-    this.wordFrequency$,
+    this.state_$,
   ]).pipe(
-    map(
-      ([
-        activeUserPosts,
-        activeUserComments,
-        searchTerm,
-        users,
-        loading,
-        wordFrequency,
-      ]) => {
-        return {
-          activeUserPosts,
-          activeUserComments,
-          searchTerm,
-          users,
-          loading,
-          wordFrequency,
-        };
-      }
-    )
+    map(([state]) => {
+      return {
+        activeUserPosts: state.activeUserPosts,
+        activeUserComments: state.activeUserComments,
+        searchTerm: state.searchTerm,
+        users: state.users,
+        loading: state.loading,
+        wordFrequency: state.wordFrequency,
+      };
+    })
   );
 
   constructor(private readonly http: HttpClient) {
