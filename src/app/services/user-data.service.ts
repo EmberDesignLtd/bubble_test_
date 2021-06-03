@@ -160,6 +160,10 @@ export class UserDataService {
       });
   }
 
+  /**
+   * TODO(MUNRO): Learn BigO and reduce time complexity of this
+   * Potentially use a hash map as an alternative to nested recursion.
+   */
   private wordFrequency(comments: UserComment[]): WordFrequency {
     let sortedAndCountedWords: any[] = [];
     let totalWordCount = 0;
