@@ -39,3 +39,13 @@ button {
   color: currentColor;
   cursor: pointer;
 }
+
+::-webkit-scrollbar {
+  height: 10px;
+  width: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: currentColor;
+  border-radius: 8px;
+}
