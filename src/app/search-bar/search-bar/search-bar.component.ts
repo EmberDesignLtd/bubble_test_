@@ -29,6 +29,6 @@ export class SearchBarComponent {
 
   setCurrentUser(user: UserData): void {
     this.hideOptions();
-    this.userDataService.updateActiveUserPostsAndComments(user.id);
+    this.userDataService.updateActiveUserPostsAndComments(user);
   }
 }

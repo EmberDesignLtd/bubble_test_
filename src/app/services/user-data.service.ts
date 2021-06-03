@@ -12,14 +12,14 @@ import {
 import { compareValue } from '../utils/compare';
 
 interface RawUserData {
+  email: string;
   id: number;
   name: string;
   username: string;
-  email: string;
   address: {
+    city: string;
     street: string;
     suite: string;
-    city: string;
     zipcode: string;
     geo: {
       lat: string;
@@ -29,9 +29,9 @@ interface RawUserData {
   phone: string;
   website: string;
   company: {
-    name: string;
-    catchPhrase: string;
     bs: string;
+    catchPhrase: string;
+    name: string;
   };
 }
 
@@ -41,18 +41,18 @@ export interface UserData {
 }
 
 export interface UserPost {
-  userId: number;
+  body: string;
   id: number;
   title: string;
-  body: string;
+  userId: number;
 }
 
 export interface UserComment {
-  postId: number;
+  body: string;
+  email: string;
   id: number;
   name: string;
-  email: string;
-  body: string;
+  postId: number;
 }
 
 export interface UserCommentAndPost {
@@ -61,23 +61,24 @@ export interface UserCommentAndPost {
 }
 
 export interface UserViewModel {
-  users: UserData[];
-  searchTerm: string;
+  activeUser: string;
   activeUserComments: UserComment[];
   activeUserPosts: UserPost[];
   loading: boolean;
+  searchTerm: string;
+  users: UserData[];
   wordFrequency: WordFrequency;
 }
 
 export interface WordFrequency {
-  totalWordCount: number;
-  sortedAndCountedWords: SortedAndCountedWord[];
   highestCount: number;
+  sortedAndCountedWords: SortedAndCountedWord[];
+  totalWordCount: number;
 }
 
 export interface SortedAndCountedWord {
-  word: string;
   count: number;
+  word: string;
 }
 
 enum JsonPlaceHolderApi {
@@ -93,6 +94,7 @@ export class UserDataService {
   private state: UserViewModel = {
     users: [],
     searchTerm: '',
+    activeUser: '',
     activeUserComments: [],
     activeUserPosts: [],
     loading: false,
@@ -111,11 +113,12 @@ export class UserDataService {
   ]).pipe(
     map(([state]) => {
       return {
-        activeUserPosts: state.activeUserPosts,
+        activeUser: state.activeUser,
         activeUserComments: state.activeUserComments,
+        activeUserPosts: state.activeUserPosts,
+        loading: state.loading,
         searchTerm: state.searchTerm,
         users: state.users,
-        loading: state.loading,
         wordFrequency: state.wordFrequency,
       };
     })
@@ -153,13 +156,13 @@ export class UserDataService {
       });
   }
 
-  updateActiveUserPostsAndComments(id: number): void {
-    this.getUserPostAndComments(id)
+  updateActiveUserPostsAndComments(user: UserData): void {
+    this.getUserPostAndComments(user.id)
       .pipe(take(1))
       .subscribe((postAndComments) => {
-        console.log('Post and comments ', postAndComments);
         this.updateState({
           ...this.state,
+          activeUser: user.name,
           activeUserComments: postAndComments.comments,
           activeUserPosts: postAndComments.posts,
           wordFrequency: this.wordFrequency(postAndComments.comments),
