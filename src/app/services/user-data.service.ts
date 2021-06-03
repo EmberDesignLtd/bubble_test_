@@ -113,13 +113,7 @@ export class UserDataService {
   ]).pipe(
     map(([state]) => {
       return {
-        activeUser: state.activeUser,
-        activeUserComments: state.activeUserComments,
-        activeUserPosts: state.activeUserPosts,
-        loading: state.loading,
-        searchTerm: state.searchTerm,
-        users: state.users,
-        wordFrequency: state.wordFrequency,
+        ...state,
       };
     })
   );
@@ -135,8 +129,6 @@ export class UserDataService {
   getStateSnapshot(): UserViewModel {
     return {
       ...this.state,
-      activeUserPosts: [...this.state.activeUserPosts],
-      activeUserComments: [...this.state.activeUserComments],
     };
   }
 
