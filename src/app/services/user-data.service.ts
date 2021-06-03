@@ -89,6 +89,44 @@ enum JsonPlaceHolderApi {
 
 const COUNT_KEY = 'count';
 
+/**
+ * TODO(MUNRO): Learn BigO and reduce time complexity of this
+ * Potentially use a hash map as an alternative to nested recursion.
+ */
+const wordFrequency = (comments: UserComment[]): WordFrequency => {
+  let sortedAndCountedWords: any[] = [];
+  let totalWordCount = 0;
+  comments.forEach((comment) => {
+    const words = comment.body.split(' ');
+    words.forEach((word) => {
+      totalWordCount += 1;
+      let found = false;
+      let index = 0;
+      for (let i = 0; i < sortedAndCountedWords.length; i++) {
+        if (
+          sortedAndCountedWords[i].word.toLowerCase() === word.toLowerCase()
+        ) {
+          found = true;
+          index = i;
+          break;
+        }
+      }
+      if (found) {
+        sortedAndCountedWords[index].count += 1;
+      } else {
+        sortedAndCountedWords.push({ word: word, count: 1 });
+      }
+    });
+  });
+  sortedAndCountedWords.sort((a, b) => compareValue(a, b, COUNT_KEY));
+  sortedAndCountedWords = sortedAndCountedWords.splice(0, 10);
+  return {
+    sortedAndCountedWords,
+    totalWordCount,
+    highestCount: sortedAndCountedWords[0].count,
+  };
+};
+
 @Injectable({ providedIn: 'root' })
 export class UserDataService {
   private state: UserViewModel = {
@@ -157,47 +195,9 @@ export class UserDataService {
           activeUser: user.name,
           activeUserComments: postAndComments.comments,
           activeUserPosts: postAndComments.posts,
-          wordFrequency: this.wordFrequency(postAndComments.comments),
+          wordFrequency: wordFrequency(postAndComments.comments),
         });
       });
-  }
-
-  /**
-   * TODO(MUNRO): Learn BigO and reduce time complexity of this
-   * Potentially use a hash map as an alternative to nested recursion.
-   */
-  private wordFrequency(comments: UserComment[]): WordFrequency {
-    let sortedAndCountedWords: any[] = [];
-    let totalWordCount = 0;
-    comments.forEach((comment) => {
-      const words = comment.body.split(' ');
-      words.forEach((word) => {
-        totalWordCount += 1;
-        let found = false;
-        let index = 0;
-        for (let i = 0; i < sortedAndCountedWords.length; i++) {
-          if (
-            sortedAndCountedWords[i].word.toLowerCase() === word.toLowerCase()
-          ) {
-            found = true;
-            index = i;
-            break;
-          }
-        }
-        if (found) {
-          sortedAndCountedWords[index].count += 1;
-        } else {
-          sortedAndCountedWords.push({ word: word, count: 1 });
-        }
-      });
-    });
-    sortedAndCountedWords.sort((a, b) => compareValue(a, b, COUNT_KEY));
-    sortedAndCountedWords = sortedAndCountedWords.splice(0, 10);
-    return {
-      sortedAndCountedWords,
-      totalWordCount,
-      highestCount: sortedAndCountedWords[0].count,
-    };
   }
 
   private getUsers(userName = ''): Observable<UserData[]> {
