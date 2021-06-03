@@ -1,7 +1,7 @@
 @mixin word-frequency-histogram-theme($theme) {
   app-word-frequency-histogram {
     .bar {
-      background-color: function.theme-colour($theme, accent-one, background-fade);
+      background-color: function.theme-colour($theme, accent-two, background-fade);
     }
   }
 }

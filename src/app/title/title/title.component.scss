@@ -1,0 +1,8 @@
+@use '../../../scss/base';
+
+:host {
+  display: block;
+  font-family: base.$montserrat;
+  font-size: map-get(base.$font-size, m);
+  margin-bottom: map-get(base.$spacing, s);
+}

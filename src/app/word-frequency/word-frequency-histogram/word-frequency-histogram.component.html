@@ -1,5 +1,5 @@
 <ng-container *ngIf="usersViewModel$ | async as usersViewModel">
-  <h1 class="title montserrat">Top 10 word count</h1>
+  <app-title>Top 10 word count</app-title>
   <div [style.width.%]="calcWidth(word.count, usersViewModel.wordFrequency.highestCount)"
        *ngFor="let word of usersViewModel?.wordFrequency?.sortedAndCountedWords"
        class="bar">

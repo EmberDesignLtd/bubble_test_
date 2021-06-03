@@ -1,7 +1,7 @@
 <ng-container *ngIf="usersViewModel$ | async as usersViewModel">
-  <h1 class="title montserrat">
+  <app-title>
     {{usersViewModel?.activeUser ? usersViewModel?.activeUser : 'User'}} Posts
-  </h1>
+  </app-title>
   <app-post [post]="post" *ngFor="let post of usersViewModel?.activeUserPosts">
   </app-post>
   <p *ngIf="usersViewModel?.activeUserPosts?.length === 0">
