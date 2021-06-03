@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, take } from 'rxjs/operators';
+import { compareValue } from '../utils/compare';
 
 interface RawUserData {
   id: number;
@@ -79,15 +80,7 @@ enum JsonPlaceHolderApi {
   USER_COMMENTS = 'http://jsonplaceholder.typicode.com/comments?postId=',
 }
 
-function compareCount(a: any, b: any) {
-  if (a.count > b.count) {
-    return -1;
-  }
-  if (a.count < b.count) {
-    return 1;
-  }
-  return 0;
-}
+const COUNT_KEY = 'count';
 
 @Injectable({ providedIn: 'root' })
 export class UserDataService {
@@ -192,7 +185,7 @@ export class UserDataService {
         }
       });
     });
-    sortedAndCountedWords.sort(compareCount);
+    sortedAndCountedWords.sort((a, b) => compareValue(a, b, COUNT_KEY));
     sortedAndCountedWords = sortedAndCountedWords.splice(0, 10);
     return {
       sortedAndCountedWords,
