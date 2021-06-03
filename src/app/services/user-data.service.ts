@@ -173,7 +173,7 @@ export class UserDataService {
         totalWordCount += 1;
         let found = false;
         let index = 0;
-        for (var i = 0; i < sortedAndCountedWords.length; i++) {
+        for (let i = 0; i < sortedAndCountedWords.length; i++) {
           if (
             sortedAndCountedWords[i].word.toLowerCase() === word.toLowerCase()
           ) {
